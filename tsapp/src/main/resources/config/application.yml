@@ -5,9 +5,8 @@ base-url: /api
 
 telegram:
   bot:
-    name: IBRYouTrackBot
-    token: 5396094706:AAEexDzbX8yWD2N5HLVNTWIAmT0qJwGL7WU
-    chatId: -809118194
+    name: ${TELEGRAM_BOT_NAME}
+    token: ${TELEGRAM_BOT_TOKEN}
 
 spring:
   application:
