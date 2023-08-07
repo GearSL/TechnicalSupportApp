@@ -3,6 +3,12 @@ server:
 
 base-url: /api
 
+telegram:
+  bot:
+    name: IBRYouTrackBot
+    token: 5396094706:AAEexDzbX8yWD2N5HLVNTWIAmT0qJwGL7WU
+    chatId: -809118194
+
 spring:
   application:
     name: spring_ts_app
