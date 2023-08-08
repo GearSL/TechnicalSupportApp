@@ -1,0 +1,62 @@
+databaseChangeLog:
+    - changeSet:
+          id: 1691384951455-1
+          author: ilyasismailov (generated)
+          changes:
+              - createTable:
+                    columns:
+                        - column:
+                              autoIncrement: true
+                              constraints:
+                                  nullable: false
+                                  primaryKey: true
+                                  primaryKeyName: project_settingsPK
+                              name: id
+                              type: BIGINT
+                        - column:
+                              name: notification_type
+                              type: SMALLINT
+                        - column:
+                              name: telegram_chat_id
+                              type: VARCHAR(255)
+                        - column:
+                              name: project_id
+                              type: BIGINT
+                    tableName: project_settings
+    - changeSet:
+          id: 1691384951455-2
+          author: ilyasismailov (generated)
+          changes:
+              - createTable:
+                    columns:
+                        - column:
+                              autoIncrement: true
+                              constraints:
+                                  nullable: false
+                                  primaryKey: true
+                                  primaryKeyName: projectsPK
+                              name: id
+                              type: BIGINT
+                        - column:
+                              name: created_at
+                              type: TIMESTAMP(6)
+                        - column:
+                              name: project_id
+                              type: VARCHAR(255)
+                              constraints:
+                                  unique: true
+                    tableName: projects
+    - changeSet:
+          id: 1691384951455-3
+          author: ilyasismailov (generated)
+          changes:
+              - addForeignKeyConstraint:
+                    baseColumnNames: project_id
+                    baseTableName: project_settings
+                    constraintName: FKiuockvav3ou8yg3nux69jykf
+                    deferrable: false
+                    initiallyDeferred: false
+                    referencedColumnNames: id
+                    referencedTableName: projects
+                    validate: true
+
