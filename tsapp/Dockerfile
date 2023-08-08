@@ -20,4 +20,4 @@ COPY / .
 
 RUN gradle installDist
 
-CMD ./build/install/app/bin/app --spring.profiles.active=${APP_ENV}
+CMD ./build/install/tsapp/bin/tsapp --spring.profiles.active=${APP_ENV}
