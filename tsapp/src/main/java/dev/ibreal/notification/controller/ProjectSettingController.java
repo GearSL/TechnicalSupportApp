@@ -4,6 +4,7 @@ import dev.ibreal.notification.dto.ProjectSettingDTO;
 import dev.ibreal.notification.model.ProjectSetting;
 import dev.ibreal.notification.repository.ProjectSettingRepository;
 import dev.ibreal.notification.service.ProjectSettingService;
+import dev.ibreal.notification.service.ProjectSettingServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

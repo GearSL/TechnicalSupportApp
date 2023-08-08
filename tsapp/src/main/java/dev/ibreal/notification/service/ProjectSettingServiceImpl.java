@@ -6,8 +6,10 @@ import dev.ibreal.notification.model.ProjectSetting;
 import dev.ibreal.notification.repository.ProjectRepository;
 import dev.ibreal.notification.repository.ProjectSettingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class ProjectSettingServiceImpl implements ProjectSettingService {
     private final ProjectRepository projectRepository;
     private final ProjectSettingRepository projectSettingRepository;
