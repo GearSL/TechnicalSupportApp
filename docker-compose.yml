@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  tsapp:
+    container_name: tsapp
+    env_file: .env
+    build:
+      context: ./tsapp
+    restart: always
+    networks:
+      - tsapp-bot
+    ports:
+      - '5001:5001'
+
+networks:
+  tsapp-bot:
+    driver: bridge

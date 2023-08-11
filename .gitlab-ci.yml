@@ -1,0 +1,5 @@
+stages:
+  - Deploy_prod
+
+include:
+  - local: '/.gitlab-ci/.gitlab-ci.prod.yml'

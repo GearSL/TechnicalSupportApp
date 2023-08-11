@@ -45,6 +45,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private List<ProjectSetting> getSettings(Long projectId) {
-        return projectSettingRepository.findAll();
+        return projectSettingRepository.findAllByProjectId(projectId);
     }
 }

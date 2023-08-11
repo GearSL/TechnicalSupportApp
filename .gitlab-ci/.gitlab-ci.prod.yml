@@ -1,0 +1,45 @@
+deploy_prod:
+
+  environment: prod_env
+  stage: Deploy_prod
+
+  variables:
+    APP_RELEASES_PATH: "/srv/projects/tsapp/releases"
+
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:building_dirs_configs_env[collapsed=true]\r\e[0Kbuilding_dirs_configs_env"
+    - echo 'Building release directories, config files and environments'
+    - export CI_COMMIT_REF_NAME=`cat $prod_env_file | awk  -F'=' 'NR==1{print$2}'`
+    - export APP_URL_STAGE=`cat $prod_env_file | awk  -F'=' 'NR==2{print$2}'` ### env.VIRTUAL_HOST
+    - sudo rm -rf "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".tmp
+    - sudo rm -rf "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".old
+    - mkdir "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".tmp
+    - mkdir -p "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME"
+    - rsync -av . "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".tmp/. > /dev/null 2>&1
+    - echo -e "\e[0Ksection_end:`date +%s`:building_dirs_configs_env\r\e[0K"
+
+    - echo -e "\e[0Ksection_start:`date +%s`:building_configs_env[collapsed=true]\r\e[0Kbuilding_configs_env"
+    - echo 'Building config files and environments'
+    - cd "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".tmp/
+    - cat "$prod_env_file" > .env
+    - echo -e "\e[0Ksection_end:`date +%s`:0Kbuilding_configs_env\r\e[0K"
+
+    - echo -e "\e[0Ksection_start:`date +%s`:building_docker_configs[collapsed=true]\r\e[0Kbuilding_docker_configs"
+    - echo 'Building docker templates and configs...'
+    - sudo mv "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME"/ "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".old/
+    - sudo mv "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME".tmp/ "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME"/
+    - cd "$APP_RELEASES_PATH"/"$CI_COMMIT_REF_NAME"/
+    - docker-compose -f docker-compose.yml down -v
+    - docker-compose -f docker-compose.yml up --force-recreate --build -d
+    - echo -e "\e[0Ksection_end:`date +%s`:building_docker_configs\r\e[0K"
+
+    - |
+      echo "Domain name: http://$APP_URL_STAGE"
+
+  tags:
+    - deploy_prod
+
+  #  only:
+  #  - master
+
+  when: manual
