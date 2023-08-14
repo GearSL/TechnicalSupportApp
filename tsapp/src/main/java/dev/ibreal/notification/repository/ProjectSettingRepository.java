@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProjectSettingRepository extends JpaRepository<ProjectSetting, Long> {
-    List<ProjectSetting> findAllByProjectId(Long projectId);
+    List<ProjectSetting> findByProjectId(Long projectId);
 }

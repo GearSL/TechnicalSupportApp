@@ -7,8 +7,5 @@ import lombok.Setter;
 @Setter
 public class NotificationDTO {
     private String projectId;
-    private String ticketId;
-    private String status;
-    private String responsible;
     private String message;
 }

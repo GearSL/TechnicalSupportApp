@@ -6,10 +6,12 @@ import dev.ibreal.notification.model.ProjectSetting;
 import dev.ibreal.notification.repository.ProjectRepository;
 import dev.ibreal.notification.repository.ProjectSettingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -19,24 +21,14 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public String notifyTelegramParticipants(NotificationDTO notificationDTO) {
-        String messageTemplate = """
-                🔑<b>Ticket:</b> %s  \n
-                📍<b>Status:</b> %s \n
-                📝<b>Message:</b> %s \n
-                👨‍💻<b>Responsible:</b> %s \n
-                """;
-        String filledMessage = String.format(messageTemplate,
-                notificationDTO.getTicketId(),
-                notificationDTO.getStatus(),
-                notificationDTO.getMessage(),
-                notificationDTO.getResponsible()
-                );
+        String message = notificationDTO.getMessage();
 
         Project project = projectRepository.findByProjectId(notificationDTO.getProjectId());
         List<ProjectSetting> settings = getSettings(project.getId());
+
         settings.forEach(setting -> {
                     if (setting.getTelegramChatId() != null) {
-                        telegramBot.sendMessage(setting.getTelegramChatId(), filledMessage);
+                        telegramBot.sendMessage(setting.getTelegramChatId(), message);
                     }
                 }
         );
@@ -45,6 +37,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private List<ProjectSetting> getSettings(Long projectId) {
-        return projectSettingRepository.findAllByProjectId(projectId);
+        return projectSettingRepository.findByProjectId(projectId);
     }
 }
